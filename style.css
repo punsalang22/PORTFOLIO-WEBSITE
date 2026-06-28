@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0d0d0d;
+    color: white;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    padding: 20px 50px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: 1px solid white;
+    border-radius: 30px;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    background: linear-gradient(
+        135deg,
+        #111 0%,
+        #1f1f1f 50%,
+        #000 100%
+    );
+}
+
+.hero-text p {
+    font-size: 20px;
+    opacity: 0.7;
+}
+
+.hero-text h1 {
+    font-size: 80px;
+    margin: 20px 0;
+}
+
+.hero-text span {
+    color: #8f5cff;
+}
+
+.hero-text h3 {
+    font-size: 28px;
+    opacity: 0.8;
+}
+
+.about,
+.contact {
+    padding: 120px 10%;
+}
+
+.about h2,
+.contact h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.about p,
+.contact p {
+    max-width: 700px;
+    line-height: 1.8;
+    font-size: 18px;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 80px 10%;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 30px;
+    border-radius: 20px;
+    width: 300px;
+    backdrop-filter: blur(15px);
+    transition: 0.4s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.contact-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 25px;
+    border: 1px solid white;
+    border-radius: 30px;
+    color: white;
+    text-decoration: none;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
