@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ project.project_name }}</title>
+
+    <style>
+        body{
+            background:#0d1117;
+            color:white;
+            font-family:Arial;
+            padding:40px;
+        }
+
+        .container{
+            max-width:900px;
+            margin:auto;
+            background:#161b22;
+            padding:30px;
+            border-radius:20px;
+        }
+
+        h1{
+            color:#58a6ff;
+            margin-bottom:20px;
+        }
+
+        .section{
+            margin-bottom:20px;
+        }
+
+        .label{
+            color:#58a6ff;
+            font-weight:bold;
+        }
+
+        a{
+            color:#58a6ff;
+        }
+
+        .back{
+            display:inline-block;
+            margin-top:20px;
+            background:#238636;
+            padding:10px 20px;
+            border-radius:8px;
+            color:white;
+            text-decoration:none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>{{ project.project_name }}</h1>
+
+    <div class="section">
+        <span class="label">Description:</span>
+        <p>{{ project.description }}</p>
+    </div>
+
+    <div class="section">
+        <span class="label">Tech Stack:</span>
+        <p>{{ project.tech_stack }}</p>
+    </div>
+
+    <div class="section">
+        <span class="label">Project Link:</span><br>
+        <a href="{{ project.link }}" target="_blank">
+            {{ project.link }}
+        </a>
+    </div>
+
+    <a href="/projects/" class="back">
+        Back to Projects
+    </a>
+
+</div>
+
+</body>
+</html>
