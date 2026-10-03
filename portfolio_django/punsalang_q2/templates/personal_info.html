@@ -85,6 +85,7 @@
 
 <div class="card">
 
+    {% if info %}
     <div class="profile">
         <h1>{{ info.first_name }} {{ info.last_name }}</h1>
         <p>Web Developer | Programmer</p>
@@ -113,9 +114,15 @@
             📍 {{ info.address }}
         </div>
     </div>
+    {% else %}
+    <div class="profile">
+        <h1>My Portfolio</h1>
+        <p>No personal information yet. Add it from the Django admin (/admin/).</p>
+    </div>
+    {% endif %}
 
     <div class="center">
-        <a href="/projects/" class="btn">
+        <a href="{% url 'project_list' %}" class="btn">
             View My Projects
         </a>
     </div>

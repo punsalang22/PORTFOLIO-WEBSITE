@@ -38,6 +38,41 @@
             font-size:24px;
             color:#58a6ff;
         }
+
+        .description{
+            color:#8b949e;
+            margin-top:8px;
+        }
+
+        .tags{
+            margin-top:12px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+        }
+
+        .tag{
+            background:#21262d;
+            border:1px solid #30363d;
+            color:#c9d1d9;
+            font-size:13px;
+            padding:4px 10px;
+            border-radius:999px;
+        }
+
+        .empty{
+            text-align:center;
+            color:#8b949e;
+        }
+
+        .back{
+            display:inline-block;
+            margin-top:20px;
+            background:#238636;
+            padding:10px 20px;
+            border-radius:8px;
+            color:white;
+        }
     </style>
 </head>
 
@@ -46,14 +81,28 @@
 <h1>My Projects</h1>
 
 {% for project in projects %}
-<a href="/projects/{{ project.id }}/">
+<a href="{% url 'project_detail' project.id %}">
     <div class="project-card">
         <div class="title">
             {{ project.project_name }}
         </div>
+        <div class="description">
+            {{ project.description|truncatechars:120 }}
+        </div>
+        <div class="tags">
+            {% for stack in project.tech_stack.all %}
+            <span class="tag">{{ stack.name }}</span>
+            {% endfor %}
+        </div>
     </div>
 </a>
+{% empty %}
+<p class="empty">No projects yet.</p>
 {% endfor %}
+
+<div style="text-align:center;">
+    <a href="{% url 'home' %}" class="back">Back to Home</a>
+</div>
 
 </body>
 </html>

@@ -62,7 +62,7 @@
 
     <div class="section">
         <span class="label">Tech Stack:</span>
-        <p>{{ project.tech_stack }}</p>
+        <p>{{ project.tech_stack_names }}</p>
     </div>
 
     <div class="section">
@@ -72,7 +72,7 @@
         </a>
     </div>
 
-    <a href="/projects/" class="back">
+    <a href="{% url 'project_list' %}" class="back">
         Back to Projects
     </a>
 
