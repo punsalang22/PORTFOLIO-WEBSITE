@@ -13,11 +13,27 @@ class PersonalInformation(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
+class TechStack(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Project(models.Model):
     project_name = models.CharField(max_length=100)
     description = models.TextField()
-    tech_stack = models.CharField(max_length=255)
+    # One TechStack (e.g. "Python") can be shared by many projects.
+    tech_stack = models.ManyToManyField(TechStack, related_name='projects')
     link = models.URLField()
 
     def __str__(self):
         return self.project_name
+
+    @property
+    def tech_stack_names(self):
+        return ', '.join(stack.name for stack in self.tech_stack.all())
