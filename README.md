@@ -9,19 +9,61 @@ A personal portfolio website built with Django. Visitors see my personal informa
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Tech Stack](#tech-stack)
-3. [Requirements](#requirements)
-4. [Run It Locally (Step by Step)](#run-it-locally-step-by-step)
-5. [Environment Variables (.env)](#environment-variables-env)
-6. [Pages and URLs](#pages-and-urls)
-7. [How to Use the Dashboard](#how-to-use-the-dashboard)
-8. [Running the Tests](#running-the-tests)
-9. [Deploying to PythonAnywhere](#deploying-to-pythonanywhere)
-10. [Project Structure](#project-structure)
-11. [Data Model](#data-model)
-12. [Git Workflow](#git-workflow)
-13. [Troubleshooting](#troubleshooting)
+1. [Quiz 5 & 6 Requirements Checklist](#quiz-5--6-requirements-checklist)
+2. [Features](#features)
+3. [Tech Stack](#tech-stack)
+4. [Requirements](#requirements)
+5. [Run It Locally (Step by Step)](#run-it-locally-step-by-step)
+6. [Environment Variables (.env)](#environment-variables-env)
+7. [Pages and URLs](#pages-and-urls)
+8. [How to Use the Dashboard](#how-to-use-the-dashboard)
+9. [Running the Tests](#running-the-tests)
+10. [Deploying to PythonAnywhere](#deploying-to-pythonanywhere)
+11. [Project Structure](#project-structure)
+12. [Data Model](#data-model)
+13. [Git Workflow](#git-workflow)
+14. [Troubleshooting](#troubleshooting)
+
+---
+
+## Quiz 5 & 6 Requirements Checklist
+
+This table lists every requirement from the quiz instructions, where it is implemented, and how to check it.
+
+### Submission rules
+
+| # | Requirement | Status | Where / how to verify |
+|---|-------------|:------:|------------------------|
+| 1 | No direct pushes to `main`; all work on a separate branch, merged through a pull request | ✅ | Work was done on `quiz5-6` and merged through **PR #2**; follow-ups through PR #3 and PR #4. See [Git Workflow](#git-workflow) and the repository's *Pull requests → Closed* tab. |
+| 2 | Proper, detailed commit messages | ✅ | `git log` on `main`: each commit has a summary line plus a body explaining what changed and why. |
+| 3 | Same repository as previous quizzes | ✅ | https://github.com/punsalang22/PORTFOLIO-WEBSITE (Quiz 2 is PR #1 in the same repo). |
+| 4 | Detailed README with clone/run instructions | ✅ | This file. See [Run It Locally (Step by Step)](#run-it-locally-step-by-step); the steps were tested in a fresh clone. |
+| 5 | Repository link and deployed URL submitted in a PDF | ✅ | `PUNSALANG_Q5_Q6.pdf`, with the links as text. |
+
+### Features
+
+| # | Requirement | Status | Where it is implemented | How to verify |
+|---|-------------|:------:|-------------------------|---------------|
+| 1 | Dedicated sign-in page for **admin/superuser only**; regular users cannot sign in even if their account exists | ✅ | `/login/` → `AdminLoginView` (`punsalang_q2/views.py`) using `SuperuserAuthenticationForm` (`punsalang_q2/forms.py`), whose `confirm_login_allowed()` rejects any user without `is_superuser` | Sign in with your superuser (works). Create a normal user in `/admin/` and try it on `/login/`: it is rejected. |
+| 2 | Successful sign-in redirects to **`/dashboard`** | ✅ | `LOGIN_REDIRECT_URL = 'dashboard'` (`config/settings.py`) | Sign in at `/login/`; you land on `/dashboard/`. |
+| 2a | Dashboard page: **List of all projects** as a **table** with columns Project Name, Description (**truncated to 50 characters**), tech_stack (**comma separated**), link (**`<a>` tag**) | ✅ | `/dashboard/projects/` → `dashboard_projects` view, `templates/dashboard/project_list.html` (`truncatechars:50`, `Project.tech_stack_names`, `<a href>`) | Open *Projects* in the dashboard. |
+| 2b | Dashboard page: **List of all tech stacks** as a **table** with columns Tech Stack Name, Project It Was Used, Date Added | ✅ | `/dashboard/tech-stacks/` → `dashboard_tech_stacks` view, `templates/dashboard/tech_stack_list.html` | Open *Tech Stacks* in the dashboard. |
+| 2c | `TechStack` model with `name` and `created_at`; `Project` model updated | ✅ | `punsalang_q2/models.py`; migration `0002_techstack_project_tech_stack_m2m.py` | `/admin/` → Tech stacks / Projects. |
+| 2d | One tech stack is linked to **many projects without duplicates** | ✅ | `Project.tech_stack = ManyToManyField(TechStack, related_name='projects')`; `name` is `unique=True`, and the create form also blocks case-insensitive duplicates (`python` vs `Python`) | Use the same tech stack on two projects: the Tech Stacks table shows one row listing both projects. |
+| 3 | A **Create** button on both the Project list and the Tech Stack list | ✅ | "+ Create Project" / "+ Create Tech Stack" buttons in both list templates | Top right of each table page. |
+| 3a | **Create Project** view: Project Name, Project Description (**textarea**), Tech Stacks (fetches **all** tech stack objects), Link; all **required** and **fail properly** | ✅ | `/dashboard/projects/create/` → `project_create` view + `ProjectForm` (`forms.py`) | Submit the empty form: an error appears under every field and nothing is saved. An invalid URL or whitespace-only text is also rejected. |
+| 3b | **Create Tech Stack** view: Tech Stack Name, **required** and **fails properly** | ✅ | `/dashboard/tech-stacks/create/` → `tech_stack_create` view + `TechStackForm` | Submit an empty or duplicate name: an error is shown and nothing is saved. |
+| — | Only the authenticated owner can open the dashboard and create views | ✅ | `superuser_required` decorator on every dashboard view (`views.py`) | Open `/dashboard/` while signed out: you are redirected to `/login/`. |
+| 4 | New projects/tech stacks appear on the **portfolio** | ✅ | The public pages (`/projects/`, `/projects/<id>/`) read straight from the database | Create a project in the dashboard, then open `/projects/`: it is listed with its tech stacks. |
+| 5 | `.env.example` included, no credentials exposed, covered in README | ✅ | `portfolio_django/.env.example`; `config/settings.py` reads `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` from `.env` | See [Environment Variables (.env)](#environment-variables-env). |
+| 6 | Proper `.gitignore`: no `db.sqlite3`, no `.venv`; a clone must run `migrate` (not `makemigrations`) and create its own venv | ✅ | `.gitignore` (venv, `.env`, `*.sqlite3`, `__pycache__`, `staticfiles/`); migrations are committed | `git ls-files` shows no database, venv or `.env`. |
+| 7 | Deployed on PythonAnywhere and tested | ✅ | https://punsalang22.pythonanywhere.com | Sign-in, both dashboard tables, both create pages and sign-out were tested on the live site. See [Deploying to PythonAnywhere](#deploying-to-pythonanywhere). |
+
+> **Note on "Tech Stacks (radio buttons)":** the Create Project form shows **one checkbox per tech stack** in the database instead of radio buttons. Radio buttons only allow **one** choice, but a project needs **several** tech stacks: the Projects table shows them comma separated, and one tech stack is shared by many projects (many-to-many). Checkboxes are the multiple-choice form of the same input, so a project can be saved with e.g. *Python, Django*. The field is still required: saving without choosing at least one gives "Select at least one tech stack."
+
+### Automated tests
+
+`python manage.py test punsalang_q2` runs **21 tests** covering every feature above (see [Running the Tests](#running-the-tests)).
 
 ---
 
@@ -388,7 +430,8 @@ Nothing is pushed straight to `main`. Each quiz is built on its own branch and m
 |------------|-----------------------------------------------------------|------------|
 | `quiz2`    | Django models, project list/detail and personal info pages | PR #1 |
 | `quiz5-6`  | Superuser-only sign-in, dashboard, TechStack model, create views, `.env`, deployment | PR #2 |
-| `seed-portfolio-data` | `seed_portfolio` command that fills an empty database with my content | Pull request into `main` |
+| `seed-portfolio-data` | `seed_portfolio` command that fills an empty database with my content | PR #3 |
+| `readme-requirements-checklist` | README requirements checklist | PR #4 |
 
 ---
 
