@@ -1,0 +1,26 @@
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables / secrets (copy .env.example to .env instead)
+.env
+
+# Local database - every clone must run `python manage.py migrate`
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Collected static files (python manage.py collectstatic)
+staticfiles/
+
+# Logs / editor / OS files
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
