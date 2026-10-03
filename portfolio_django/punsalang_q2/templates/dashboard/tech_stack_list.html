@@ -1,0 +1,37 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Tech Stacks{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h1>Tech Stacks</h1>
+    <a href="{% url 'tech_stack_create' %}" class="btn">+ Create Tech Stack</a>
+</div>
+
+<div class="card table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Tech Stack Name</th>
+                <th>Project It Was Used</th>
+                <th>Date Added</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tech_stack in tech_stacks %}
+            <tr>
+                <td>{{ tech_stack.name }}</td>
+                <td>
+                    {% for project in tech_stack.projects.all %}{{ project.project_name }}{% if not forloop.last %}, {% endif %}{% empty %}<span class="muted">Not used in any project yet</span>{% endfor %}
+                </td>
+                <td class="muted">{{ tech_stack.created_at|date:"M d, Y g:i A" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="empty">No tech stacks yet. Click "Create Tech Stack" to add one.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
