@@ -1,0 +1,35 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Admin Sign In{% endblock %}
+
+{% block topbar %}{% endblock %}
+
+{% block content %}
+<div class="card form-card" style="margin:60px auto 0; max-width:420px;">
+    <h1 style="color:#58a6ff; margin-bottom:6px;">Admin Sign In</h1>
+    <p class="muted" style="margin-bottom:24px;">Only the site owner (superuser) can sign in here.</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="form-errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="field{% if field.errors %} has-error{% endif %}">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="actions">
+            <button type="submit" class="btn">Sign in</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Back to Portfolio</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

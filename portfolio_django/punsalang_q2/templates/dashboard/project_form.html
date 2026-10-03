@@ -1,0 +1,46 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Create Project{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <h1>Create Project</h1>
+</div>
+
+<div class="card form-card">
+    {% if not has_tech_stacks %}
+    <ul class="messages">
+        <li class="error">
+            There are no tech stacks yet.
+            <a href="{% url 'tech_stack_create' %}">Create a tech stack first</a>.
+        </li>
+    </ul>
+    {% endif %}
+
+    {% if form.errors %}
+    <div class="form-errors">Please fix the errors below.</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="field{% if field.errors %} has-error{% endif %}">
+            {% if field.name == 'tech_stack' %}
+                <label>{{ field.label }}</label>
+                <div class="choices">{{ field }}</div>
+            {% else %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            {% endif %}
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit" class="btn">Save Project</button>
+            <a href="{% url 'dashboard_projects' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
