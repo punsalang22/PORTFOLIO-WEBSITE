@@ -180,3 +180,19 @@ class PublicPortfolioTests(TestCase):
 
     def test_home_page_works_with_empty_database(self):
         self.assertEqual(self.client.get(reverse('home')).status_code, 200)
+
+
+class SeedPortfolioCommandTests(TestCase):
+    def test_fills_empty_database_and_is_safe_to_rerun(self):
+        from io import StringIO
+        from django.core.management import call_command
+
+        call_command('seed_portfolio', stdout=StringIO())
+        call_command('seed_portfolio', stdout=StringIO())   # second run adds nothing
+
+        from .models import PersonalInformation
+        self.assertEqual(PersonalInformation.objects.count(), 1)
+        self.assertEqual(Project.objects.count(), 3)
+        python = TechStack.objects.get(name='Python')
+        self.assertEqual(python.projects.count(), 2)          # shared, not duplicated
+        self.assertContains(self.client.get(reverse('project_list')), 'ATM Simulation')
