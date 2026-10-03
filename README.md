@@ -20,7 +20,8 @@ A personal portfolio website built with Django. Visitors see my personal informa
 9. [Deploying to PythonAnywhere](#deploying-to-pythonanywhere)
 10. [Project Structure](#project-structure)
 11. [Data Model](#data-model)
-12. [Troubleshooting](#troubleshooting)
+12. [Git Workflow](#git-workflow)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -364,6 +365,17 @@ PersonalInformation: first_name, middle_name, last_name, summary,
 ```
 
 `Project.tech_stack` is a `ManyToManyField` to `TechStack` (`related_name='projects'`). One tech stack can belong to many projects, and one project can have many tech stacks.
+
+---
+
+## Git Workflow
+
+Nothing is pushed straight to `main`. Each quiz is built on its own branch and merged through a pull request:
+
+| Branch     | Work                                                      | Merged via |
+|------------|-----------------------------------------------------------|------------|
+| `quiz2`    | Django models, project list/detail and personal info pages | PR #1 |
+| `quiz5-6`  | Superuser-only sign-in, dashboard, TechStack model, create views, `.env`, deployment | Pull request into `main` |
 
 ---
 
