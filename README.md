@@ -148,7 +148,17 @@ python manage.py createsuperuser
 
 Enter a username, an email (optional) and a password. This is the **only kind of account** that can sign in at `/login/`.
 
-### 7. Start the development server
+### 7. *(Optional)* Load sample portfolio content
+
+A fresh database is empty. To fill it with my personal information, projects and tech stacks in one step:
+
+```bash
+python manage.py seed_portfolio
+```
+
+You can run it more than once: it skips anything that already exists and never overwrites data added through the dashboard. Skip this step if you'd rather add everything yourself.
+
+### 8. Start the development server
 
 ```bash
 python manage.py runserver
@@ -156,7 +166,7 @@ python manage.py runserver
 
 Open **http://127.0.0.1:8000/** in your browser.
 
-### 8. Try it out
+### 9. Try it out
 
 1. Go to **http://127.0.0.1:8000/login/** and sign in with the superuser from step 6. You land on `/dashboard/`.
 2. Open **Tech Stacks → + Create Tech Stack** and add a few (e.g. `Python`, `Django`, `HTML`).
@@ -218,7 +228,7 @@ From `portfolio_django/` with the virtual environment active:
 python manage.py test punsalang_q2
 ```
 
-The 20 tests cover the superuser-only sign-in, dashboard access rules, both tables, both create forms (including failure cases), and the new projects showing on the public pages.
+The 21 tests cover the superuser-only sign-in, dashboard access rules, both tables, both create forms (including failure cases), the new projects showing on the public pages, and the `seed_portfolio` command.
 
 ---
 
@@ -259,6 +269,7 @@ Then:
 ```bash
 python manage.py migrate
 python manage.py createsuperuser
+python manage.py seed_portfolio        # optional: fill in my info and projects
 python manage.py collectstatic --noinput
 ```
 
@@ -341,6 +352,7 @@ PORTFOLIO-WEBSITE/
         ├── urls.py
         ├── admin.py
         ├── tests.py
+        ├── management/commands/seed_portfolio.py   # loads sample content
         ├── migrations/
         └── templates/
             ├── personal_info.html, project_list.html, project_detail.html
@@ -375,7 +387,8 @@ Nothing is pushed straight to `main`. Each quiz is built on its own branch and m
 | Branch     | Work                                                      | Merged via |
 |------------|-----------------------------------------------------------|------------|
 | `quiz2`    | Django models, project list/detail and personal info pages | PR #1 |
-| `quiz5-6`  | Superuser-only sign-in, dashboard, TechStack model, create views, `.env`, deployment | Pull request into `main` |
+| `quiz5-6`  | Superuser-only sign-in, dashboard, TechStack model, create views, `.env`, deployment | PR #2 |
+| `seed-portfolio-data` | `seed_portfolio` command that fills an empty database with my content | Pull request into `main` |
 
 ---
 
